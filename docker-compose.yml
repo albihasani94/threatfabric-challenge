@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  threatfabric-db:
+    image: postgres:12
+    container_name: threatfabric-db
+    restart: always
+    env_file:
+      - env/threatfabric-db.env
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - threatfabric-network
+  threatfabric-app:
+    build: .
+    env_file:
+      - env/threatfabric-app.env
+    container_name: threatfabric-app
+    depends_on:
+      - threatfabric-db
+    ports:
+      - 8080:8080
+    networks:
+      - threatfabric-network
+networks:
+  threatfabric-network:
+    driver: bridge
