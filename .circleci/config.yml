@@ -6,4 +6,4 @@ jobs:
       image: ubuntu-2004:202008-01
     steps:
       - checkout
-      - run: ./mvnw package
+      - run: mvn clean package
