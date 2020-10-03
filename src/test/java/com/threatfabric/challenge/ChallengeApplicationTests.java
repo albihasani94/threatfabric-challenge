@@ -44,7 +44,7 @@ class ChallengeApplicationTests {
                 .when()
                 .get("/hello/")
                 .then()
-                .body(containsString("helloo"));
+                .body(containsString("hello"));
     }
 
 }
