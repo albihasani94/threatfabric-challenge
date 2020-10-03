@@ -1,2 +1,2 @@
 INSERT INTO hello (message)
-values ('hello')
+values ('helloo')
