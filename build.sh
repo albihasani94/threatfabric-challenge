@@ -2,6 +2,6 @@
 
 mvn clean package
 
-docker build -t threatfabric-challenge:0.0.1 .
+docker build -t albihasani94/threatfabric-challenge:latest .
 
 docker-compose up
