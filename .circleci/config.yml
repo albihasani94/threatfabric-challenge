@@ -5,7 +5,7 @@ jobs:
     machine:
       image: ubuntu-2004:202008-01
     environment:
-      IMAGE: $DOCKER_IMAGE_NAME
+      $DOCKER_IMAGE_NAME: albihasani94/threatfabric-challenge
     steps:
       - checkout
       - restore_cache:
