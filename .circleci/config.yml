@@ -1,8 +1,9 @@
 version: 2.0
 
-machine: true
 jobs:
   build:
+    machine:
+      image: ubuntu-2004:202008-01
     steps:
       - checkout
-      - run: mvn clean package
+      - run: ./mvnw package
