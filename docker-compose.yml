@@ -14,7 +14,7 @@ services:
     networks:
       - threatfabric-network
   threatfabric-app:
-    build: .
+    image: threatfabric-challenge:0.0.1
     env_file:
       - env/threatfabric-app.env
     container_name: threatfabric-app
