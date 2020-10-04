@@ -51,6 +51,18 @@ docker build -t albihasani94/threatfabric-challenge:local .
 docker-compose up
 ```
 
+### Status check via actuator
+
+```bash
+curl -X GET http://localhost:8080/api/actuator/health
+```
+
+should return
+
+```bash
+{"status":"UP"}
+```
+
 ## CI Pipeline on CI server
 
 This focuses on three steps.
