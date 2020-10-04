@@ -1,5 +1,7 @@
 # ThreatFabric Challenge
 
+[![CircleCI](https://circleci.com/gh/albihasani94/threatfabric-challenge.svg?style=svg&circle-token=b95e5ca650a97b133fe74a31c511f907bdcc043d)](https://app.circleci.com/pipelines/github/albihasani94)
+
 ## Prerequisites
 
 - Maven
