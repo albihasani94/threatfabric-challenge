@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>11</java.version>
+        <!-- Forced to use a RC version for development due to an issue with Docker 2.4.0 on MacOS.
+         See https://github.com/testcontainers/testcontainers-java/releases/tag/1.15.0-rc2 -->
         <testcontainers.version>1.15.0-rc2</testcontainers.version>
         <rest.assured.version>4.2.0</rest.assured.version>
     </properties>
