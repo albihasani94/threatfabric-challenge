@@ -47,17 +47,13 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - master
+      - build
       - deploy:
           requires:
             - build
           context:
             - docker-env
-  test:
+  test-and-deploy:
     jobs:
       - test:
           filters:
