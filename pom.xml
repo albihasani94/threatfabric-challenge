@@ -80,6 +80,11 @@
             <artifactId>xml-path</artifactId>
             <version>${rest.assured.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
