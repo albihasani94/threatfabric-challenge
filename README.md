@@ -16,7 +16,7 @@ I have thought about two workflows.
 One is happening on your machine, and the other out there in the 
 CI pipeline.
 
-## Local Development
+## Local Development on your machine
 
 This focuses on three steps.
 
@@ -40,7 +40,7 @@ mvn clean package
 ### Build the docker image
 
 ```bash
-docker build -t threatfabric-challenge:0.0.1 .
+docker build -t albihasani94/threatfabric-challenge:local .
 ```
 
 ### Compose this image along a postgres container
@@ -49,7 +49,7 @@ docker build -t threatfabric-challenge:0.0.1 .
 docker-compose up
 ```
 
-## CI Pipeline
+## CI Pipeline on CI server
 
 This focuses on three steps.
 
