@@ -2,6 +2,7 @@ package com.threatfabric.challenge;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -13,13 +14,24 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 class ChallengeApplicationTests {
 
+    private static RequestSpecification spec;
+
+    @LocalServerPort
+    private int port;
+
     @Container
     public static PostgreSQLContainer container = new PostgreSQLContainer("postgres:12-alpine");
+
+    @BeforeAll
+    static void createSpecification() {
+        spec = new RequestSpecBuilder().setBaseUri("http://localhost/api").build();
+    }
 
     @DynamicPropertySource
     static void postgresqlProperties(DynamicPropertyRegistry registry) {
@@ -28,23 +40,30 @@ class ChallengeApplicationTests {
         registry.add("spring.datasource.username", container::getUsername);
     }
 
-    @LocalServerPort
-    private int port;
-
     @Test
     void contextLoads() {
     }
 
     @Test
     void helloTest() {
-        RequestSpecification spec = new RequestSpecBuilder().setBaseUri("http://localhost/api").setPort(port).build();
-
         given()
                 .spec(spec)
                 .when()
+                .port(port)
                 .get("/hello/")
                 .then()
                 .body(containsString("hello"));
+    }
+
+    @Test
+    void actuatorTest() {
+        given()
+                .spec(spec)
+                .when()
+                .port(port)
+                .get("/actuator/health/")
+                .then()
+                .body("status", equalTo("UP"));
     }
 
 }

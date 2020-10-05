@@ -6,8 +6,12 @@
 # (2) Can be solved by Docker wormhole, where you share the docker context between host and container; not used here
 mvn clean package
 
-## Build a docker image out of the output jar from the maven build process
-docker build -t albihasani94/threatfabric-challenge:local .
+# If maven command was successful
+STATUS=$?
+if [ $STATUS -eq 0 ]; then
+  ## Build a docker image out of the output jar from the maven build process
+  docker build -t albihasani94/threatfabric-challenge:local .
 
-## Compose a container out of this docker image along a postgres container, configured to work together
-docker-compose up --build
+  ## Compose a container out of this docker image along a postgres container, configured to work together
+  docker-compose up --build
+fi
