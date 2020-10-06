@@ -1,5 +1,5 @@
 FROM openjdk:11-jre-slim
-COPY target/challenge-0.0.1-SNAPSHOT.jar /opt/target/threatfabric-challenge.jar
+COPY rest/target/rest-0.0.1-SNAPSHOT.jar /opt/target/threatfabric-challenge.jar
 WORKDIR /opt/target
 
 ADD wait /wait
