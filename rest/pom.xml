@@ -47,16 +47,15 @@
         </dependency>
         <dependency>
             <groupId>com.threatfabric</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>service-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
-            <!-- REST API does not need to know about entities -->
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>com.threatfabric</groupId>
-                    <artifactId>repository</artifactId>
-                </exclusion>
-            </exclusions>-->
+        </dependency>
+        <dependency>
+            <groupId>com.threatfabric</groupId>
+            <artifactId>service-impl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
