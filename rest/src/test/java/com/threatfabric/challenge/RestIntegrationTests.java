@@ -17,6 +17,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -66,7 +67,7 @@ class RestIntegrationTests {
         device.setDeviceType("IOS");
         var detectionReport = new DetectionReport();
         detectionReport.setDevice(device);
-        detectionReport.setDetection(detection);
+        detectionReport.setDetections(List.of(detection));
 
         given()
                 .spec(spec)

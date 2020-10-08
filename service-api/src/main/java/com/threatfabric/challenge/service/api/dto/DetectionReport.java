@@ -1,9 +1,10 @@
 package com.threatfabric.challenge.service.api.dto;
 
+import java.util.List;
+
 public class DetectionReport {
     private Device device;
-    // TODO: Turn to list
-    private Detection detection;
+    private List<Detection> detections;
 
     public Device getDevice() {
         return device;
@@ -13,11 +14,11 @@ public class DetectionReport {
         this.device = device;
     }
 
-    public Detection getDetection() {
-        return detection;
+    public List<Detection> getDetections() {
+        return detections;
     }
 
-    public void setDetection(Detection detection) {
-        this.detection = detection;
+    public void setDetections(List<Detection> detections) {
+        this.detections = detections;
     }
 }

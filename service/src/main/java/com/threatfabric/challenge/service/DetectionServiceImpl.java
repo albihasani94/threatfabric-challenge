@@ -39,15 +39,14 @@ public class DetectionServiceImpl implements DetectionService {
     @Override
     public Device registerDetectionReport(DetectionReport detectionReport) {
         var device = detectionReport.getDevice();
-        var detection = detectionReport.getDetection();
+        var detections = detectionReport.getDetections();
 
         // TODO: perform validation
         var deviceEntity = createOrUpdateDeviceEntity(device);
 
-        functionFromDetectionType(deviceEntity)
-                .get(detection.getClass())
-                .andThen(detectionRepository::save)
-                .apply(detection);
+        detections.stream()
+                .map(functionFromDetectionType(deviceEntity))
+                .forEach(detectionRepository::save);
 
         // TODO: Include some detection data on the returned response
         return fromDeviceEntityToDto().apply(deviceEntity);
@@ -87,11 +86,16 @@ public class DetectionServiceImpl implements DetectionService {
         return Collections.emptyList();
     }
 
-    private Map<Class<? extends Detection>, Function<Detection, DetectionEntity>> functionFromDetectionType(DeviceEntity deviceEntity) {
-        return Map.of(
-                NewDetection.class, fromNewDetectionDtoToEntity(deviceEntity),
-                ResolvedDetection.class, fromResolvedDetectionDtoToEntity(deviceEntity, newDetectionRepository),
-                NoDetection.class, fromNoDetectionDtoToEntity(deviceEntity)
-        );
+    private Function<Detection, DetectionEntity> functionFromDetectionType(DeviceEntity deviceEntity) {
+        return detection -> {
+            var map = Map.of(
+                    NewDetection.class, fromNewDetectionDtoToEntity(deviceEntity),
+                    ResolvedDetection.class, fromResolvedDetectionDtoToEntity(deviceEntity, newDetectionRepository),
+                    NoDetection.class, fromNoDetectionDtoToEntity(deviceEntity)
+            );
+
+            return map.get(detection.getClass()).apply(detection);
+        };
     }
+
 }
