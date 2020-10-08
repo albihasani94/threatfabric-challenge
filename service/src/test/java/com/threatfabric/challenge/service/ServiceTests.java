@@ -1,15 +1,20 @@
 package com.threatfabric.challenge.service;
 
-import com.threatfabric.challenge.repository.NewDetectionRepository;
+import com.threatfabric.challenge.repository.DetectionRepository;
+import com.threatfabric.challenge.repository.DeviceRepository;
 import com.threatfabric.challenge.repository.model.detection.NewDetectionEntity;
-import com.threatfabric.challenge.service.api.dto.Detection;
+import com.threatfabric.challenge.repository.model.device.DeviceEntity;
+import com.threatfabric.challenge.repository.model.device.DeviceType;
 import com.threatfabric.challenge.service.api.dto.DetectionReport;
+import com.threatfabric.challenge.service.api.dto.Device;
+import com.threatfabric.challenge.service.api.dto.NewDetection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,25 +26,41 @@ import static org.mockito.Mockito.when;
 public class ServiceTests {
 
     @Mock
-    private NewDetectionRepository newDetectionRepository;
+    private DetectionRepository detectionRepository;
+
+    @Mock
+    private DeviceRepository deviceRepository;
 
     @InjectMocks
     private DetectionServiceImpl detectionService;
 
     @Test
     void testRegisterNewDetection() {
-        DetectionReport detectionReport = new DetectionReport();
+        var detectionReport = new DetectionReport();
 
-        Detection detection = new Detection();
-        UUID aUUID = UUID.randomUUID();
-        detection.setDetectionId(aUUID);
-
+        var detection = new NewDetection();
+        var detectionUuid = UUID.randomUUID();
+        detection.setDetectionUuid(detectionUuid);
         detectionReport.setDetection(detection);
 
-        when(newDetectionRepository.save(any(NewDetectionEntity.class))).then(returnsFirstArg());
-        NewDetectionEntity registeredDetection = detectionService.registerNewDetection(detectionReport);
+        var device = new Device();
+        var deviceUuid = UUID.randomUUID();
+        device.setDeviceId(deviceUuid);
+        device.setDeviceType("IOS");
+        device.setDeviceModel("iPhone 6S");
+        detectionReport.setDevice(device);
 
-        assertEquals(aUUID, registeredDetection.getDetectionUUID());
+        var deviceEntity = new DeviceEntity();
+        deviceEntity.setType(DeviceType.IOS);
+        deviceEntity.setModel(device.getDeviceModel());
+        deviceEntity.setOsVersion(device.getOsVersion());
+
+        when(deviceRepository.findById(deviceUuid)).thenReturn(Optional.of(deviceEntity));
+        when(deviceRepository.save(any(DeviceEntity.class))).thenReturn(deviceEntity);
+        when(detectionRepository.save(any(NewDetectionEntity.class))).then(returnsFirstArg());
+        var returnedDevice = detectionService.registerDetectionReport(detectionReport);
+
+        assertEquals(deviceUuid, returnedDevice.getDeviceId());
     }
 
 }

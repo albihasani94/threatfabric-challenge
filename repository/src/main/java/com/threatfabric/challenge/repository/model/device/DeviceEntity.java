@@ -20,7 +20,7 @@ public class DeviceEntity {
     private String model;
     private String osVersion;
 
-    @OneToMany(mappedBy = "device", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "device", cascade = CascadeType.PERSIST)
     private List<DetectionEntity> detections = new ArrayList<>();
 
     public UUID getId() {
@@ -61,6 +61,11 @@ public class DeviceEntity {
 
     public void setDetections(List<DetectionEntity> detections) {
         this.detections = detections;
+    }
+
+    public void addDetection(DetectionEntity detectionEntity) {
+        this.getDetections().add(detectionEntity);
+        detectionEntity.setDevice(this);
     }
 
     @Override

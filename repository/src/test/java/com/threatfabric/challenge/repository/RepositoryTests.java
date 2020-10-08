@@ -1,6 +1,8 @@
 package com.threatfabric.challenge.repository;
 
 import com.threatfabric.challenge.repository.model.detection.NewDetectionEntity;
+import com.threatfabric.challenge.repository.model.detection.NoDetectionEntity;
+import com.threatfabric.challenge.repository.model.detection.ResolvedDetectionEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,7 +36,16 @@ public class RepositoryTests {
     }
 
     @Autowired
+    private DetectionRepository detectionRepository;
+
+    @Autowired
     private NewDetectionRepository newDetectionRepository;
+
+    @Autowired
+    private ResolvedDetectionRepository resolvedDetectionRepository;
+
+    @Autowired
+    private NoDetectionRepository noDetectionRepository;
 
     @Test
     void repositoryIsLoaded() {
@@ -45,15 +56,46 @@ public class RepositoryTests {
     void persistNewDetectionAndFindByUUID() {
         NewDetectionEntity entity = new NewDetectionEntity();
 
-        entity.setTime(Instant.EPOCH.getEpochSecond());
+        entity.setTime(getCurrentTime());
         entity.setTypeOfApp("Banking");
         UUID detectionUUID = UUID.randomUUID();
 
-        entity.setDetectionUUID(detectionUUID);
-        newDetectionRepository.save(entity);
+        entity.setDetectionUuid(detectionUUID);
+        detectionRepository.save(entity);
 
-        NewDetectionEntity entityFromDb = newDetectionRepository.findByDetectionUUID(detectionUUID);
+        NewDetectionEntity entityFromDb = newDetectionRepository.findByDetectionUuid(detectionUUID).orElse(null);
         assertEquals(entity, entityFromDb);
+    }
+
+    @Test
+    void persistNewAndResolvedDetectionAndFindByDetectionUuid() {
+        var newDetection = new NewDetectionEntity();
+        UUID detectionUuid = UUID.randomUUID();
+        newDetection.setDetectionUuid(detectionUuid);
+        newDetection = detectionRepository.save(newDetection);
+
+        var resolvedDetection = new ResolvedDetectionEntity();
+        resolvedDetection.setEarlierDetection(newDetection);
+        detectionRepository.save(resolvedDetection);
+
+        var resolvedDetectionFromDb = resolvedDetectionRepository.findByEarlierDetectionDetectionUuid(detectionUuid).orElse(null);
+
+        assertEquals(resolvedDetection, resolvedDetectionFromDb);
+    }
+
+    @Test
+    void persistNoThreatsDetectionAndFindById() {
+        var noDetection = new NoDetectionEntity();
+        noDetection.setTime(getCurrentTime());
+        noDetection = detectionRepository.save(noDetection);
+
+        var noThreatsDetectionFromDb = noDetectionRepository.findById(noDetection.getId()).orElse(null);
+
+        assertEquals(noDetection, noThreatsDetectionFromDb);
+    }
+
+    private long getCurrentTime() {
+        return Instant.EPOCH.getEpochSecond();
     }
 
     @SpringBootApplication

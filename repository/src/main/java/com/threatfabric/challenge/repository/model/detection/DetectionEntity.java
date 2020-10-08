@@ -15,7 +15,6 @@ public abstract class DetectionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long time;
 
     @ManyToOne
@@ -61,12 +60,4 @@ public abstract class DetectionEntity {
         return Objects.hash(id, time, device);
     }
 
-    @Override
-    public String toString() {
-        return "DetectionEntity{" +
-                "id=" + id +
-                ", time=" + time +
-                ", device=" + device +
-                '}';
-    }
 }

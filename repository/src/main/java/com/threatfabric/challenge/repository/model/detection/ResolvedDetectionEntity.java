@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("RESOLVED")
+@DiscriminatorValue("resolved")
 @Table(name = "detection_resolved")
 public class ResolvedDetectionEntity extends DetectionEntity {
 
     @OneToOne
-    @JoinColumn(name = "earlier_detection", referencedColumnName = "detectionuuid")
+    @JoinColumn(name = "earlier_detection", referencedColumnName = "detection_uuid")
     private NewDetectionEntity earlierDetection;
 
     public NewDetectionEntity getEarlierDetection() {
@@ -34,10 +34,4 @@ public class ResolvedDetectionEntity extends DetectionEntity {
         return Objects.hash(super.hashCode(), earlierDetection);
     }
 
-    @Override
-    public String toString() {
-        return "ResolvedDetectionEntity{" +
-                "earlierDetection=" + earlierDetection +
-                '}';
-    }
 }

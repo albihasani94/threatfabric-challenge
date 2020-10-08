@@ -1,19 +1,35 @@
 package com.threatfabric.challenge.api;
 
 import com.threatfabric.challenge.service.api.DetectionService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.threatfabric.challenge.service.api.dto.Detection;
+import com.threatfabric.challenge.service.api.dto.DetectionReport;
+import com.threatfabric.challenge.service.api.dto.Device;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/detections")
 public class DetectionController {
 
-    private static final Logger LOGGER = LogManager.getLogger(DetectionController.class.getName());
+    private final DetectionService detectionService;
 
-    @Autowired
-    DetectionService detectionService;
-    
+    public DetectionController(DetectionService detectionService) {
+        this.detectionService = detectionService;
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<Device> registerDetections(@RequestBody DetectionReport detectionReport) {
+        var device = detectionService.registerDetectionReport(detectionReport);
+        return ResponseEntity.ok(device);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Detection>> retrieveDetections(@RequestParam(required = false) UUID detectionId) {
+        var detections = detectionService.retrieveDetections();
+        return ResponseEntity.ok(detections);
+    }
+
 }

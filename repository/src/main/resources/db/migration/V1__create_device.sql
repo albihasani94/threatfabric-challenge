@@ -1,4 +1,4 @@
-create table device
+create table if not exists  device
 (
     id         uuid not null primary key,
     model      varchar(255),

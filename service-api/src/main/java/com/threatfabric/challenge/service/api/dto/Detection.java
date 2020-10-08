@@ -1,37 +1,25 @@
 package com.threatfabric.challenge.service.api.dto;
 
-import java.util.Objects;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-// TODO: Work on this dto fields
-public class Detection {
-    private UUID detectionId;
-    private String nameOfApp;
-    private String typeOfApp;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = "new", value = NewDetection.class),
+        @JsonSubTypes.Type(name = "resolved", value = ResolvedDetection.class),
+        @JsonSubTypes.Type(name = "no_threats", value = NoDetection.class)
+})
+public abstract class Detection {
+    private Long id;
     private Long time;
+    private String type;
 
-    public UUID getDetectionId() {
-        return detectionId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDetectionId(UUID detectionId) {
-        this.detectionId = detectionId;
-    }
-
-    public String getNameOfApp() {
-        return nameOfApp;
-    }
-
-    public void setNameOfApp(String nameOfApp) {
-        this.nameOfApp = nameOfApp;
-    }
-
-    public String getTypeOfApp() {
-        return typeOfApp;
-    }
-
-    public void setTypeOfApp(String typeOfApp) {
-        this.typeOfApp = typeOfApp;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getTime() {
@@ -42,29 +30,11 @@ public class Detection {
         this.time = time;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Detection detection = (Detection) o;
-        return Objects.equals(detectionId, detection.detectionId) &&
-                Objects.equals(nameOfApp, detection.nameOfApp) &&
-                Objects.equals(typeOfApp, detection.typeOfApp) &&
-                Objects.equals(time, detection.time);
+    public String getType() {
+        return type;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(detectionId, nameOfApp, typeOfApp, time);
-    }
-
-    @Override
-    public String toString() {
-        return "Detection{" +
-                "detectionId=" + detectionId +
-                ", nameOfApp='" + nameOfApp + '\'' +
-                ", typeOfApp='" + typeOfApp + '\'' +
-                ", time=" + time +
-                '}';
+    public void setType(String type) {
+        this.type = type;
     }
 }

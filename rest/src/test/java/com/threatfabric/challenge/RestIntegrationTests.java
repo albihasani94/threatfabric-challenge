@@ -1,8 +1,13 @@
 package com.threatfabric.challenge;
 
+import com.threatfabric.challenge.service.api.dto.DetectionReport;
+import com.threatfabric.challenge.service.api.dto.Device;
+import com.threatfabric.challenge.service.api.dto.NoDetection;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -12,13 +17,14 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.UUID;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-class RestTests {
+class RestIntegrationTests {
 
     private static RequestSpecification spec;
 
@@ -41,17 +47,6 @@ class RestTests {
     }
 
     @Test
-    void helloTest() {
-        given()
-                .spec(spec)
-                .when()
-                .port(port)
-                .get("/hello/")
-                .then()
-                .body(containsString("hello"));
-    }
-
-    @Test
     void actuatorTest() {
         given()
                 .spec(spec)
@@ -60,6 +55,28 @@ class RestTests {
                 .get("/actuator/health/")
                 .then()
                 .body("status", equalTo("UP"));
+    }
+
+    @Test
+    void registerDetectionTest() {
+        var detection = new NoDetection();
+        detection.setType("no_threats");
+        var device = new Device();
+        device.setDeviceId(UUID.randomUUID());
+        device.setDeviceType("IOS");
+        var detectionReport = new DetectionReport();
+        detectionReport.setDevice(device);
+        detectionReport.setDetection(detection);
+
+        given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .body(detectionReport)
+                .when()
+                .port(port)
+                .post("/detections/")
+                .then()
+                .body("deviceType", equalTo(device.getDeviceType()));
     }
 
 }
