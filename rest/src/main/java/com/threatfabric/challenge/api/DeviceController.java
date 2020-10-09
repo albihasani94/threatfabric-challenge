@@ -22,7 +22,14 @@ public class DeviceController {
     @GetMapping("/{deviceId}/detections/")
     public ResponseEntity<List<Detection>> getAllForDevice(@PathVariable UUID deviceId) {
         var detections = deviceService.retrieveAllDetectionsByDeviceId(deviceId);
+        if (detections.isEmpty()) {
+            return noContentResponse();
+        }
         return ResponseEntity.ok(detections);
+    }
+
+    private ResponseEntity noContentResponse() {
+        return ResponseEntity.noContent().build();
     }
 
 }

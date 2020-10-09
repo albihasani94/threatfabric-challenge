@@ -101,4 +101,18 @@ class RestIntegrationTests {
                 .body("message", containsString("not supported"));
     }
 
+    @Test
+    void retrieveNoDetectionsForDeviceId() {
+        var deviceId = UUID.randomUUID();
+
+        given()
+                .spec(spec)
+                .pathParam("deviceId", deviceId)
+                .when()
+                .port(port)
+                .get("/devices/{deviceId}/detections/")
+                .then()
+                .statusCode(204);
+    }
+
 }

@@ -2,7 +2,6 @@ package com.threatfabric.challenge.service.api.dto;
 
 import java.util.UUID;
 
-// TODO: Work on this dto fields
 public class Device {
     private UUID deviceId;
     private String deviceType;
