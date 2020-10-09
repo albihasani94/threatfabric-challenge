@@ -1,0 +1,13 @@
+insert into detection_resolved (id, earlier_detection) values (65, '16a9d528-fb60-4ec3-8891-7b99df18f914');
+insert into detection_resolved (id, earlier_detection) values (68, '16a9d528-fb60-4ec3-8891-7b99df18f915');
+insert into detection_resolved (id, earlier_detection) values (71, '16a9d528-fb60-4ec3-8891-7b99df18f915');
+insert into detection_resolved (id, earlier_detection) values (74, '16a9d528-fb60-4ec3-8891-7b99df18f916');
+insert into detection_resolved (id, earlier_detection) values (85, '4b91f16b-6097-4ec9-b86f-c4317c6340bd');
+insert into detection_resolved (id, earlier_detection) values (88, '4b91f16b-6097-4ec9-b86f-c4317c6340bd');
+insert into detection_resolved (id, earlier_detection) values (93, '4b91f16b-6097-4ec9-b86f-c4317c6340bd');
+insert into detection_resolved (id, earlier_detection) values (96, '50c3b302-5688-40c7-98d0-f6c82295144d');
+insert into detection_resolved (id, earlier_detection) values (102, '50c3b302-5688-40c7-98d0-f6c82295144d');
+insert into detection_resolved (id, earlier_detection) values (105, '50c3b302-5688-40c7-98d0-f6c82295144d');
+insert into detection_resolved (id, earlier_detection) values (109, '50c3b302-5688-40c7-98d0-f6c82295144d');
+insert into detection_resolved (id, earlier_detection) values (112, '50c3b302-5688-40c7-98d0-f6c82295144d');
+insert into detection_resolved (id, earlier_detection) values (116, '50c3b302-5688-40c7-98d0-f6c82295144d');

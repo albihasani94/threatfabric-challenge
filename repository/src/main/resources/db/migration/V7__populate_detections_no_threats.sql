@@ -1,0 +1,13 @@
+insert into detection_no_threats (id) values (66);
+insert into detection_no_threats (id) values (69);
+insert into detection_no_threats (id) values (72);
+insert into detection_no_threats (id) values (75);
+insert into detection_no_threats (id) values (86);
+insert into detection_no_threats (id) values (89);
+insert into detection_no_threats (id) values (94);
+insert into detection_no_threats (id) values (97);
+insert into detection_no_threats (id) values (103);
+insert into detection_no_threats (id) values (106);
+insert into detection_no_threats (id) values (110);
+insert into detection_no_threats (id) values (113);
+insert into detection_no_threats (id) values (117);
