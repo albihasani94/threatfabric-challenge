@@ -6,6 +6,14 @@ public class DetectionReport {
     private Device device;
     private List<Detection> detections;
 
+    public DetectionReport() {
+    }
+
+    public DetectionReport(Device device, List<Detection> detections) {
+        this.device = device;
+        this.detections = detections;
+    }
+
     public Device getDevice() {
         return device;
     }

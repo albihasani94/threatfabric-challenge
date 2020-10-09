@@ -39,8 +39,10 @@ public class RestUnitTests {
         device.setDeviceType("ANDROID");
         device.setOsVersion("10.0");
         device.setDeviceId(UUID.randomUUID());
+        var report = new DetectionReport();
+        report.setDevice(device);
 
-        given(detectionService.registerDetectionReport(any(DetectionReport.class))).willReturn(device);
+        given(detectionService.registerDetectionReport(any(DetectionReport.class))).willReturn(report);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/detections/")

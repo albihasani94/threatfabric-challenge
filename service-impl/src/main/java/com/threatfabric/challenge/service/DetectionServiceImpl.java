@@ -40,19 +40,22 @@ public class DetectionServiceImpl implements DetectionService {
     }
 
     @Override
-    public Device registerDetectionReport(DetectionReport detectionReport) {
+    public DetectionReport registerDetectionReport(DetectionReport detectionReport) {
         var device = detectionReport.getDevice();
         var detections = detectionReport.getDetections();
 
         // TODO: perform validation
         var deviceEntity = createOrUpdateDeviceEntity(device);
 
-        detections.stream()
-                .map(functionFromDtoType(deviceEntity))
-                .forEach(detectionRepository::save);
+        detections = detections.stream()
+                .map(fromDtoToEntity(deviceEntity))
+                .map(detectionRepository::save)
+                .map(fromEntityToDto())
+                .collect(Collectors.toList());
 
-        // TODO: Include some detection data on the returned response
-        return fromDeviceEntityToDto().apply(deviceEntity);
+        device = fromDeviceEntityToDto().apply(deviceEntity);
+
+        return new DetectionReport(device, detections);
     }
 
     private DeviceEntity createOrUpdateDeviceEntity(Device device) {
@@ -86,11 +89,11 @@ public class DetectionServiceImpl implements DetectionService {
         // TODO: Add filters
         return detectionRepository.findAll()
                 .stream()
-                .map(functionFromEntityType())
+                .map(fromEntityToDto())
                 .collect(Collectors.toList());
     }
 
-    private Function<Detection, DetectionEntity> functionFromDtoType(DeviceEntity deviceEntity) {
+    private Function<Detection, DetectionEntity> fromDtoToEntity(DeviceEntity deviceEntity) {
         return detection -> {
             var map = Map.of(
                     NewDetection.class, fromNewDetectionDtoToEntity(deviceEntity),
@@ -102,7 +105,7 @@ public class DetectionServiceImpl implements DetectionService {
         };
     }
 
-    private Function<DetectionEntity, Detection> functionFromEntityType() {
+    private Function<DetectionEntity, Detection> fromEntityToDto() {
         return detectionEntity -> {
             var map = Map.of(
                     NewDetectionEntity.class, fromNewDetectionEntityToDto(),

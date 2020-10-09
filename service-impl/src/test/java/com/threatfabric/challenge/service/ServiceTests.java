@@ -59,9 +59,9 @@ public class ServiceTests {
         when(deviceRepository.findById(deviceUuid)).thenReturn(Optional.of(deviceEntity));
         when(deviceRepository.save(any(DeviceEntity.class))).thenReturn(deviceEntity);
         when(detectionRepository.save(any(NewDetectionEntity.class))).then(returnsFirstArg());
-        var returnedDevice = detectionService.registerDetectionReport(detectionReport);
+        var report = detectionService.registerDetectionReport(detectionReport);
 
-        assertEquals(deviceUuid, returnedDevice.getDeviceId());
+        assertEquals(deviceUuid, report.getDevice().getDeviceId());
     }
 
 }

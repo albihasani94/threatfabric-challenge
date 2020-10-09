@@ -77,7 +77,7 @@ class RestIntegrationTests {
                 .port(port)
                 .post("/detections/")
                 .then()
-                .body("deviceType", equalTo(device.getDeviceType()));
+                .body("device.deviceType", equalTo(device.getDeviceType()));
     }
 
 }

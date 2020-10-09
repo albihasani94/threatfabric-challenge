@@ -3,7 +3,6 @@ package com.threatfabric.challenge.api;
 import com.threatfabric.challenge.service.api.DetectionService;
 import com.threatfabric.challenge.service.api.dto.Detection;
 import com.threatfabric.challenge.service.api.dto.DetectionReport;
-import com.threatfabric.challenge.service.api.dto.Device;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +20,9 @@ public class DetectionController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Device> registerDetections(@RequestBody DetectionReport detectionReport) {
-        var device = detectionService.registerDetectionReport(detectionReport);
-        return ResponseEntity.ok(device);
+    public ResponseEntity<DetectionReport> registerDetections(@RequestBody DetectionReport detectionReport) {
+        var result = detectionService.registerDetectionReport(detectionReport);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/")
