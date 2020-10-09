@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static com.threatfabric.challenge.util.Util.noContentResponse;
+
 @RestController
 @RequestMapping("/detections")
 public class DetectionController {
@@ -29,19 +31,19 @@ public class DetectionController {
     @GetMapping("/")
     public ResponseEntity<List<Detection>> retrieveAllDetections() {
         var detections = detectionService.retrieveDetections();
+        if (detections.isEmpty()) {
+            return noContentResponse();
+        }
         return ResponseEntity.ok(detections);
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<Detection>> retrieveFilteredDetections(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) UUID detectionUuid,
             @RequestParam(required = false) String nameOfApp,
             @RequestParam(required = false) String deviceType) {
         var detections = detectionService.retrieveFilteredDetections(id, detectionUuid, nameOfApp, deviceType);
-        return ResponseEntity.ok().body(detections);
+        return detections.isEmpty() ? noContentResponse() : ResponseEntity.ok(detections);
     }
-
-
-
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static com.threatfabric.challenge.util.Util.noContentResponse;
+
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
@@ -27,9 +29,4 @@ public class DeviceController {
         }
         return ResponseEntity.ok(detections);
     }
-
-    private ResponseEntity noContentResponse() {
-        return ResponseEntity.noContent().build();
-    }
-
 }
