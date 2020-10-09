@@ -20,12 +20,6 @@ CI pipeline.
 
 ## Local Development on your machine
 
-This focuses on three steps.
-
-- Build the artifact `jar`
-- Build a docker image out of this artifact
-- Compose this image along a postgres container
-
 ### Running it straight
 
 If you want to get going quickly run straight `build.sh`.
@@ -44,7 +38,15 @@ Setup a postgres container first.
 docker-compose -f compose-postgres.yml up
 ```
 
-Run the project normally in IDE.
+Run the project normally from the IDE.
+
+Equivalent to:
+
+```bash
+mvn clean package
+
+java -jar rest/target/rest-0.0.1-SNAPSHOT.jar
+```
 
 ## Status check via actuator
 
