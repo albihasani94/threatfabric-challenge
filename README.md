@@ -71,3 +71,73 @@ This focuses on three steps.
     - Build the docker image
     - Push artifact to docker hub
 - Pull the image via docker-compose and run along the postgres service
+
+## Performing a few requests
+
+Posting data to Server
+
+There is one endpoint for sending detections to the api.
+
+`http://localhost:8080/api/detections/`.
+
+This endpoint accepts polymorphic detections as its request body. Here is a list containing all three types of detections and a device.
+
+```json
+{
+  "detections": [
+    {
+    "detectionUuid": "64ca0ad7-baf0-4b62-b7c7-9c8bcdb468a",
+    "nameOfApp": "1st on iPhone 13",
+    "time": 1,
+    "type": "new",
+    "typeOfApp": "Banking"
+  },
+  {
+    "detectionUuid": "50c3b302-5688-40c7-98d0-f6c82295144d",
+    "time": 1,
+    "type": "resolved"
+  },
+  {
+    "time": 1,
+    "type": "no_threats"
+  }
+  ],
+  "device": {
+    "deviceId": "9f64824c-0a54-4545-9774-b4a94f3e722e",
+    "deviceModel": "iPhone 13",
+    "deviceType": "IOS",
+    "osVersion": "1"
+  }
+}
+```
+
+Reading data from the server
+
+`http://localhost:8080/api/detections/` GET on this resource will return all detections, of various types (new, resolved, no_threats)
+
+`http://localhost:8080/api/detections?deviceType=IOS` GET on this resource would return all detections made on device type `IOS`. Other filters that you can add are `id`, `detectionUuid` and `nameOfApp`.
+
+`http://localhost:8080/api/detections/` GET on this resource will return all detections.
+
+`http://localhost:8080/api/devices/9f64824c-0a54-4545-9774-b4a94f3e720e/detections/` GET on this resource would return all detections for the device id in the path.
+
+There requests would result in responses to the following example:
+
+```json
+[
+  {
+    "type": "new",
+    "id": 64,
+    "time": 1,
+    "detectionUuid": "16a9d528-fb60-4ec3-8891-7b99df18f914",
+    "nameOfApp": "1st on iPhone 13",
+    "typeOfApp": "Banking"
+  },
+  {
+    "type": "resolved",
+    "id": 65,
+    "time": 1,
+    "detectionUuid": "16a9d528-fb60-4ec3-8891-7b99df18f914"
+  },
+]
+```
