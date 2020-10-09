@@ -1,10 +1,12 @@
 package com.threatfabric.challenge.service.api.dto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public class DetectionReport {
+    @Valid
     private Device device;
-    private List<Detection> detections;
+    private List<@Valid Detection> detections;
 
     public DetectionReport() {
     }

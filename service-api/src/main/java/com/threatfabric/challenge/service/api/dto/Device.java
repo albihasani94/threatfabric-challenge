@@ -1,11 +1,15 @@
 package com.threatfabric.challenge.service.api.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class Device {
     private UUID deviceId;
+    @NotBlank(message = "Device type is mandatory")
     private String deviceType;
+    @NotBlank(message = "Device model is mandatory")
     private String deviceModel;
+    @NotBlank(message = "Os version is mandatory")
     private String osVersion;
 
     public UUID getDeviceId() {

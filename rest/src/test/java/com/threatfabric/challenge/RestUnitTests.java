@@ -52,10 +52,4 @@ public class RestUnitTests {
                 .andExpect(content().string(containsString(device.getDeviceModel())));
     }
 
-    @Test
-    @Disabled
-    public void retrieveDetectionReportMock() {
-        // TODO: Write this test
-    }
-
 }

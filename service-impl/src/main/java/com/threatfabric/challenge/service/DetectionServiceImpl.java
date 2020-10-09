@@ -42,7 +42,6 @@ public class DetectionServiceImpl implements DetectionService {
         var device = detectionReport.getDevice();
         var detections = detectionReport.getDetections();
 
-        // TODO: perform validation
         var deviceEntity = createOrUpdateDeviceEntity(device);
 
         detections = detections.stream()

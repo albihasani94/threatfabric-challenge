@@ -1,12 +1,13 @@
 package com.threatfabric.challenge.service.api.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class NewDetection extends Detection {
-
-    // These fields apply to new detection
     private UUID detectionUuid;
+    @NotBlank(message = "Name of application is mandatory")
     private String nameOfApp;
+    @NotBlank(message = "Type of application is mandatory")
     private String typeOfApp;
 
     public UUID getDetectionUuid() {

@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class ResolvedDetection extends Detection {
 
-    // These field applies to resolved detection
     private UUID detectionUuid;
 
     public UUID getDetectionUuid() {

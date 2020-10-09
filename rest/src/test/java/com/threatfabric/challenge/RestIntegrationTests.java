@@ -15,6 +15,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,9 +61,12 @@ class RestIntegrationTests {
     @Test
     void registerDetectionTest() {
         var detection = new NoDetection();
+        detection.setTime(Instant.EPOCH.getEpochSecond());
         var device = new Device();
         device.setDeviceId(UUID.randomUUID());
         device.setDeviceType("IOS");
+        device.setOsVersion("14.0");
+        device.setDeviceModel("iPhone 6s");
         var detectionReport = new DetectionReport();
         detectionReport.setDevice(device);
         detectionReport.setDetections(List.of(detection));
@@ -82,9 +86,14 @@ class RestIntegrationTests {
     void registerDetectionWithUnsupportedDevice() {
         var detection = new NewDetection();
         detection.setDetectionUuid(UUID.randomUUID());
+        detection.setNameOfApp("ING Bank");
+        detection.setTypeOfApp("Banking");
+        detection.setTime(Instant.EPOCH.getEpochSecond());
         var device = new Device();
         device.setDeviceId(UUID.randomUUID());
         device.setDeviceType("BREAK");
+        device.setDeviceModel("P20 Pro");
+        device.setOsVersion("10.0");
         var detectionReport = new DetectionReport();
         detectionReport.setDevice(device);
         detectionReport.setDetections(List.of(detection));
