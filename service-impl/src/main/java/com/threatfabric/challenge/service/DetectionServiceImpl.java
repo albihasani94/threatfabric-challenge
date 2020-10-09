@@ -4,19 +4,22 @@ import com.threatfabric.challenge.repository.DetectionRepository;
 import com.threatfabric.challenge.repository.DeviceRepository;
 import com.threatfabric.challenge.repository.NewDetectionRepository;
 import com.threatfabric.challenge.repository.model.detection.DetectionEntity;
+import com.threatfabric.challenge.repository.model.detection.NewDetectionEntity;
+import com.threatfabric.challenge.repository.model.detection.NoDetectionEntity;
+import com.threatfabric.challenge.repository.model.detection.ResolvedDetectionEntity;
 import com.threatfabric.challenge.repository.model.device.DeviceEntity;
 import com.threatfabric.challenge.repository.model.device.DeviceType;
 import com.threatfabric.challenge.service.api.DetectionService;
 import com.threatfabric.challenge.service.api.dto.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import static com.threatfabric.challenge.service.converters.DetectionConverter.*;
 import static com.threatfabric.challenge.service.converters.DeviceConverter.fromDeviceEntityToDto;
@@ -45,7 +48,7 @@ public class DetectionServiceImpl implements DetectionService {
         var deviceEntity = createOrUpdateDeviceEntity(device);
 
         detections.stream()
-                .map(functionFromDetectionType(deviceEntity))
+                .map(functionFromDtoType(deviceEntity))
                 .forEach(detectionRepository::save);
 
         // TODO: Include some detection data on the returned response
@@ -80,13 +83,14 @@ public class DetectionServiceImpl implements DetectionService {
 
     @Override
     public List<Detection> retrieveDetections() {
-        var result = detectionRepository.findAll();
-        // debug result
-        // process result
-        return Collections.emptyList();
+        // TODO: Add filters
+        return detectionRepository.findAll()
+                .stream()
+                .map(functionFromEntityType())
+                .collect(Collectors.toList());
     }
 
-    private Function<Detection, DetectionEntity> functionFromDetectionType(DeviceEntity deviceEntity) {
+    private Function<Detection, DetectionEntity> functionFromDtoType(DeviceEntity deviceEntity) {
         return detection -> {
             var map = Map.of(
                     NewDetection.class, fromNewDetectionDtoToEntity(deviceEntity),
@@ -95,6 +99,18 @@ public class DetectionServiceImpl implements DetectionService {
             );
 
             return map.get(detection.getClass()).apply(detection);
+        };
+    }
+
+    private Function<DetectionEntity, Detection> functionFromEntityType() {
+        return detectionEntity -> {
+            var map = Map.of(
+                    NewDetectionEntity.class, fromNewDetectionEntityToDto(),
+                    ResolvedDetectionEntity.class, fromResolvedEntityToDto(),
+                    NoDetectionEntity.class, fromNoDetectionEntityToDto()
+            );
+
+            return map.get(detectionEntity.getClass()).apply(detectionEntity);
         };
     }
 

@@ -75,4 +75,14 @@ public class DetectionConverter {
             return detection;
         };
     }
+
+    public static Function<DetectionEntity, Detection> fromNoDetectionEntityToDto() {
+        return entity -> {
+            var detectionEntity = (NoDetectionEntity) entity;
+            var detection = new NoDetection();
+            detection.setId(detectionEntity.getId());
+            detection.setTime(detectionEntity.getTime());
+            return detection;
+        };
+    }
 }
