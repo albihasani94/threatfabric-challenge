@@ -27,9 +27,21 @@ public class DetectionController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Detection>> retrieveDetections(@RequestParam(required = false) UUID detectionId) {
+    public ResponseEntity<List<Detection>> retrieveAllDetections() {
         var detections = detectionService.retrieveDetections();
         return ResponseEntity.ok(detections);
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<Detection>> retrieveFilteredDetections(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) UUID detectionUuid,
+            @RequestParam(required = false) String nameOfApp,
+            @RequestParam(required = false) String deviceType) {
+        var detections = detectionService.retrieveFilteredDetections(id, detectionUuid, nameOfApp, deviceType);
+        return ResponseEntity.ok().body(detections);
+    }
+
+
 
 }
