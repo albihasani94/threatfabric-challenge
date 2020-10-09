@@ -48,7 +48,7 @@ public class RestUnitTests {
                 MockMvcRequestBuilders.post("/detections/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().string(containsString(device.getDeviceModel())));
     }
 
