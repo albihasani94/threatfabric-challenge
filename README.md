@@ -26,32 +26,27 @@ This focuses on three steps.
 - Build a docker image out of this artifact
 - Compose this image along a postgres container
 
-A script of these steps is located at `build.sh`.
+### Running it straight
+
+If you want to get going quickly run straight `build.sh`.
 
 ```bash
 chmod a+x build.sh
+
 ./build.sh
 ```
 
-### Run the maven local development build
+### If you want to run it from your IDE
+
+Setup a postgres container first.
 
 ```bash
-mvn clean package
+docker-compose -f compose-postgres.yml up
 ```
 
-### Build the docker image
+Run the project normally in IDE.
 
-```bash
-docker build -t albihasani94/threatfabric-challenge:local .
-```
-
-### Compose this image along a postgres container
-
-```bash
-docker-compose up
-```
-
-### Status check via actuator
+## Status check via actuator
 
 ```bash
 curl -X GET http://localhost:8080/api/actuator/health
