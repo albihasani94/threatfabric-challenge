@@ -66,7 +66,8 @@ public class DetectionServiceImpl implements DetectionService {
 
     @Override
     public List<Detection> retrieveFilteredDetections(Long id, UUID detectionUuid, String nameOfApp, String deviceType) {
-        return detectionRepository.findAllByParams(id, detectionUuid, nameOfApp, DeviceType.valueOf(deviceType))
+        var deviceTypeEnum = DeviceType.valueFromString(deviceType);
+        return detectionRepository.findAllByParams(id, detectionUuid, nameOfApp, deviceTypeEnum)
                 .stream()
                 .map(fromEntityToDto())
                 .collect(Collectors.toList());
@@ -89,7 +90,7 @@ public class DetectionServiceImpl implements DetectionService {
             deviceEntity.setId(device.getDeviceId());
             deviceEntity.setOsVersion(device.getOsVersion());
             deviceEntity.setModel(device.getDeviceModel());
-            deviceEntity.setType(DeviceType.valueOf(device.getDeviceType()));
+            deviceEntity.setType(DeviceType.valueFromString(device.getDeviceType()));
             return deviceEntity;
         };
     }

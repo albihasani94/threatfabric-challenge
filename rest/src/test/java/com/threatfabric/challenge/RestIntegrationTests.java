@@ -1,8 +1,6 @@
 package com.threatfabric.challenge;
 
-import com.threatfabric.challenge.service.api.dto.DetectionReport;
-import com.threatfabric.challenge.service.api.dto.Device;
-import com.threatfabric.challenge.service.api.dto.NoDetection;
+import com.threatfabric.challenge.service.api.dto.*;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -21,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -77,6 +76,29 @@ class RestIntegrationTests {
                 .post("/detections/")
                 .then()
                 .body("device.deviceType", equalTo(device.getDeviceType()));
+    }
+
+    @Test
+    void registerDetectionWithUnsupportedDevice() {
+        var detection = new NewDetection();
+        detection.setDetectionUuid(UUID.randomUUID());
+        var device = new Device();
+        device.setDeviceId(UUID.randomUUID());
+        device.setDeviceType("BREAK");
+        var detectionReport = new DetectionReport();
+        detectionReport.setDevice(device);
+        detectionReport.setDetections(List.of(detection));
+
+        given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .body(detectionReport)
+                .when()
+                .port(port)
+                .post("/detections/")
+                .then()
+                .statusCode(400)
+                .body("message", containsString("not supported"));
     }
 
 }
