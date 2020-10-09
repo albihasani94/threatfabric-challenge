@@ -117,8 +117,6 @@ Reading data from the server
 
 `http://localhost:8080/api/detections?deviceType=IOS` GET on this resource would return all detections made on device type `IOS`. Other filters that you can add are `id`, `detectionUuid` and `nameOfApp`.
 
-`http://localhost:8080/api/detections/` GET on this resource will return all detections.
-
 `http://localhost:8080/api/devices/9f64824c-0a54-4545-9774-b4a94f3e720e/detections/` GET on this resource would return all detections for the device id in the path.
 
 There requests would result in responses to the following example:
