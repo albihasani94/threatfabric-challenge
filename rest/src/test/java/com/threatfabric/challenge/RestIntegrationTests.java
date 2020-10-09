@@ -61,7 +61,6 @@ class RestIntegrationTests {
     @Test
     void registerDetectionTest() {
         var detection = new NoDetection();
-        detection.setType("no_threats");
         var device = new Device();
         device.setDeviceId(UUID.randomUUID());
         device.setDeviceType("IOS");

@@ -3,7 +3,7 @@ package com.threatfabric.challenge.service.api.dto;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(name = "new", value = NewDetection.class),
         @JsonSubTypes.Type(name = "resolved", value = ResolvedDetection.class),
@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public abstract class Detection {
     private Long id;
     private Long time;
-    private String type;
 
     public Long getId() {
         return id;
@@ -28,13 +27,5 @@ public abstract class Detection {
 
     public void setTime(Long time) {
         this.time = time;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }
