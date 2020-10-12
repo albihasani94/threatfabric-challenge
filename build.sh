@@ -4,7 +4,7 @@
 # 1. Simplicity to naturally cache m2 dependencies; missing on recent versions of docker
 # 2. Docker-in-docker problem. While in the docker context, you need another docker context to run testcontainers.
 # (2) Can be solved by Docker wormhole, where you share the docker context between host and container; not used here
-mvn clean package
+mvn clean package -P docker
 
 # If maven command was successful
 STATUS=$?

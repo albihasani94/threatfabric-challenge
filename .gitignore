@@ -34,5 +34,4 @@ build/
 
 postgresql-data/
 postgresql-data-local/
-env/
 .DS_Store

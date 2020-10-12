@@ -6,4 +6,3 @@ ADD wait /wait
 RUN chmod +x /wait
 
 CMD ["sh", "-c", "/wait && java -jar threatfabric-challenge.jar"]
-#ENTRYPOINT ["java","-jar","challenge-0.0.1-SNAPSHOT.jar"]]
